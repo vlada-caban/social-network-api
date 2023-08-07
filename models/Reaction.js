@@ -3,7 +3,7 @@ const { Schema, model } = require("mongoose");
 const reactionSchema = new Schema({
   reactionId: {
     type: Schema.Types.ObjectId,
-    default: new Schema.ObjectId(),
+    default: () => new Schema.Types.ObjectId(),
   },
   reactionBody: {
     type: String,
@@ -17,10 +17,11 @@ const reactionSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now(),
-    //TODO: Use a getter method to format the timestamp on query
+    //getter method to format the timestamp on query
+    get: (date) => {
+      if (date) return date.toISOString().split("T")[0];
+    },
   },
 });
 
-const Reaction = model("reaction", reactionSchema);
-
-module.exports = Reaction;
+module.exports = reactionSchema;

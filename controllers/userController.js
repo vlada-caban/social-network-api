@@ -62,13 +62,9 @@ module.exports = {
     try {
       //TODO: remove thoughts that belong to that user
       //  const username = await User.findOne({ _id: req.params.userId });
-
       //  const allThoughts = await Thought.find({username});
-
       //  console.log(allThoughts);
-
       //  for (let i=0; i<allThoughts.length; i++) {
-
       //  }
 
       const user = await User.findOneAndDelete({ _id: req.params.userId });
@@ -88,10 +84,31 @@ module.exports = {
     try {
       const user_id = req.params.userId;
       const friend_id = req.params.friendId;
-      
+
       const user = await User.findOneAndUpdate(
         { _id: user_id },
-        { $push: { friends: friend_id } },
+        { $addToSet: { friends: friend_id } },
+        { new: true }
+      );
+
+      if (!user) {
+        return res.status(404).json({ message: "No user with that ID" });
+      }
+
+      res.json(user);
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  async removeFriend(req, res) {
+    try {
+      const user_id = req.params.userId;
+      const friend_id = req.params.friendId;
+
+      const user = await User.findOneAndUpdate(
+        { _id: user_id },
+        { $pull: { friends: friend_id } },
         { new: true }
       );
 

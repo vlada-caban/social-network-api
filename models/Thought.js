@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 const Reaction = require("./Reaction");
 //import helper
-const FormatDate = require("../utils/formatdate")
+const { format_date } = require("../utils/formatdate");
 
 const thoughtSchema = new Schema(
   {
@@ -19,7 +19,7 @@ const thoughtSchema = new Schema(
         // if (date) return date.toISOString().split("T")[0];
         //create a helper method 
         //return HelperMethod(date)
-        if (date) return FormatDate(date);
+        if (date) return format_date(date);
       },
     },
     username: {

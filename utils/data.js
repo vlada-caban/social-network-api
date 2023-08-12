@@ -1,5 +1,5 @@
 //thoughts are taken from https://parade.com/living/shower-thoughts
-const thoughts = [
+const allThoughts = [
   "Even when a balloon is half inflated, it is completely full.",
   "Does a straw have one hole, or two?",
   "Millions of people are doing the exact same thing as you are right now.",
@@ -20,31 +20,25 @@ const users = [
   { username: "john", email: "john1@gmail.com" },
 ];
 
-const reactions = [
-    "Cool thought!", 
-    "Wow, can't believe it.", 
-    "I disagree", 
-    "This is impressive",
-    "Never thought of it, but it's actually true"
+const allReactions = [
+  "Cool thought!",
+  "Wow, can't believe it.",
+  "I disagree",
+  "This is impressive",
+  "Never thought of it, but it's actually true",
 ];
 
 const getRandomArrItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-const getRandomUser = () => {
-    return getRandomArrItem(users);
-}
-
-const getRandomThought = () => {
-  return getRandomArrItem(thoughts);
+const getReactions = (int) => {
+  const results = [];
+  for (let i = 0; i < int; i++) {
+    results.push({
+      reactionBody: getRandomArrItem(allReactions),
+      username: getRandomArrItem(users).username,
+    });
+  }
+  return results;
 };
 
-const getRandomReaction = () => {
-  return getRandomArrItem(reactions);
-};
-
-module.exports = { getRandomUser, getRandomThought, getRandomReaction };
-
-
-
-
-
+module.exports = { users, allThoughts, getRandomArrItem, getReactions};

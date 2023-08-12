@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const FormatDate = require("../utils/formatdate");
 
 const reactionSchema = new Schema({
   reactionId: {
@@ -19,7 +20,7 @@ const reactionSchema = new Schema({
     default: Date.now(),
     //getter method to format the timestamp on query
     get: (date) => {
-      if (date) return date.toISOString().split("T")[0];
+      if (date) return FormateDate(date);
     },
   },
 });

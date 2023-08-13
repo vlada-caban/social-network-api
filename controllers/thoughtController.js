@@ -69,7 +69,9 @@ module.exports = {
   //remove thought
   async removeThought(req, res) {
     try {
-      const thought = await Thought.findOneAndDelete({ _id: req.params.thoughtId });
+      const thought = await Thought.findOneAndDelete({
+        _id: req.params.thoughtId,
+      });
 
       if (!thought) {
         return res.status(404).json({ message: "No thought with that ID" });
@@ -78,6 +80,40 @@ module.exports = {
       res.json({ message: "Thought removed successfully!" });
     } catch (err) {
       console.error(err);
+    }
+  },
+
+  // add a new reaction to a thought
+  async addReaction(req, res) {
+    try {
+      const reactionBody = req.body.reactionBody;
+      const username = req.body.username;
+
+      const thought = await Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $push: { reactions: { reactionBody, username } } },
+        { new: true }
+      );
+
+      res.json(thought);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  async removeReaction(req, res) {
+    try {
+      const reactionId = req.body.reactionId;
+
+      const thought = await Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $pull: { reactions: { reactionId } } },
+        { new: true }
+      );
+
+      res.json(thought);
+    } catch (err) {
+      res.status(500).json(err);
     }
   },
 };

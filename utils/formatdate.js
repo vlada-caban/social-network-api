@@ -1,5 +1,3 @@
-module.exports = {
-  format_date: (date) => {
-    return date.toLocaleString();
-  },
+module.exports = function (date) {
+  return `${date.toDateString()} at ${date.toLocaleTimeString()}`;
 };

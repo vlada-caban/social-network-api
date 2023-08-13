@@ -1,5 +1,5 @@
 const { Schema, Types } = require("mongoose");
-// const { format_date } = require("../utils/formatdate");
+const formatDate = require("../utils/formatdate");
 
 const reactionSchema = new Schema({
   reactionId: {
@@ -17,12 +17,10 @@ const reactionSchema = new Schema({
   },
   createdAt: {
     type: Date,
-    default: () => Date.now(),
+    default: Date.now,
+    required: true,
     //getter method to format the timestamp on query
-    get: (date) => {
-      if (date) return `${date.toDateString()} at ${date.toLocaleTimeString()}`;
-      // if (date) return date.toISOString().split("T")[0];
-    },
+    get: (date) => formatDate(date)
   },
 });
 

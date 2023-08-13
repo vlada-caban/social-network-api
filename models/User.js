@@ -19,11 +19,9 @@ const userSchema = new Schema(
         `Please enter a valid email address`,
       ],
     },
-    //need ot add thoughts
     // Array of _id values referencing the Thought model
     thoughts: [{ type: Schema.Types.ObjectId, ref: "thought" }],
 
-    //need to add friends
     // Array of _id values referencing the User model (self-reference)
     friends: [{ type: Schema.Types.ObjectId, ref: "user" }],
   },

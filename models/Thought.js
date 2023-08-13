@@ -1,6 +1,5 @@
 const { Schema, model } = require("mongoose");
 const Reaction = require("./Reaction");
-//import helper
 const formatDate = require("../utils/formatdate");
 
 const thoughtSchema = new Schema(
@@ -17,15 +16,6 @@ const thoughtSchema = new Schema(
       required: true,
       //getter method to format the timestamp on query
       get: (date) => formatDate(date),
-
-      // get: (date) => date.toDateString(),
-      // get: (date) => {
-      // if (date) return date.toISOString().split("T")[0];
-      //create a helper method
-      //return HelperMethod(date)
-      //   if (date)
-      //     return `${date.toDateString()} at ${date.toLocaleTimeString()}`;
-      // },
     },
     username: {
       type: String,
@@ -37,6 +27,7 @@ const thoughtSchema = new Schema(
   {
     toJSON: {
       virtuals: true,
+      getters: true
     },
     id: false,
   }

@@ -101,6 +101,7 @@ module.exports = {
     }
   },
 
+  //remove a reaction from a thought
   async removeReaction(req, res) {
     try {
       const reactionId = req.body.reactionId;

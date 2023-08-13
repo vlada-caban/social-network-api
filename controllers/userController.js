@@ -4,7 +4,10 @@ module.exports = {
   //get all the users
   async getAllUsers(req, res) {
     try {
-      const users = await User.find();
+      const users = await User.find()
+        .select("-__v")
+        .populate("thoughts")
+        .populate("friends");;
       res.json(users);
     } catch (err) {
       res.status(500).json(err);
@@ -60,17 +63,15 @@ module.exports = {
 
   async removeUser(req, res) {
     try {
-      //TODO: remove thoughts that belong to that user
-      //  const username = await User.findOne({ _id: req.params.userId });
-      //  const allThoughts = await Thought.find({username});
-      //  console.log(allThoughts);
-      //  for (let i=0; i<allThoughts.length; i++) {
-      //  }
-
       const user = await User.findOneAndDelete({ _id: req.params.userId });
 
       if (!user) {
         return res.status(404).json({ message: "No user with that ID" });
+      } else {
+        //removing thoughts that belong to that user
+        const thoughts = await Thought.deleteMany({
+          _id: { $in: user.thoughts },
+        });
       }
 
       res.json({ message: "User removed successfully!" });
@@ -101,6 +102,7 @@ module.exports = {
     }
   },
 
+  // remove a friend
   async removeFriend(req, res) {
     try {
       const user_id = req.params.userId;
